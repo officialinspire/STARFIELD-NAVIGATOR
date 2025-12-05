@@ -1,0 +1,344 @@
+# CELESTIAL OBJECTS LIST FOR ARTWORK GENERATION
+# INSPIRE Starfield Navigator | Guerrilla Astronomy
+# Use this list to generate custom artwork in DALL-E for each celestial object
+
+## STARS (Bright & Notable)
+
+1. **POLARIS (North Star)**
+   - Type: Triple star system
+   - Color: Yellowish-white
+   - Notable: Pole star, nearly stationary in sky
+   - Art concept: Bright anchor point, guiding light, fixed position marker
+
+2. **SIRIUS (Dog Star)**
+   - Type: Binary star system
+   - Color: Blue-white, brilliant
+   - Notable: Brightest star in night sky
+   - Art concept: Diamond-like brilliance, intense blue-white light
+
+3. **BETELGEUSE**
+   - Type: Red supergiant
+   - Color: Deep red-orange
+   - Notable: Dying star, could go supernova any time
+   - Art concept: Massive red giant, pulsating, near end of life
+
+4. **VEGA**
+   - Type: Main sequence star
+   - Color: Blue-white
+   - Notable: Former pole star, Summer Triangle
+   - Art concept: Bright blue star, fast rotating, slightly flattened
+
+5. **RIGEL**
+   - Type: Blue supergiant
+   - Color: Blue-white
+   - Notable: Orion's foot, quadruple star system
+   - Art concept: Fierce blue light, rebellious energy, intense
+
+6. **ALTAIR**
+   - Type: Main sequence star
+   - Color: White
+   - Notable: Fast rotation, Summer Triangle
+   - Art concept: Spinning white star, bulging equator
+
+7. **DENEB**
+   - Type: Blue-white supergiant
+   - Color: Blue-white
+   - Notable: Extremely luminous, tail of Cygnus
+   - Art concept: Cosmic lighthouse, distant beacon, swan's tail
+
+8. **ANTARES**
+   - Type: Red supergiant
+   - Color: Red
+   - Notable: Rival of Mars, Scorpius heart
+   - Art concept: Red giant, scorpion's heart, Mars-like color
+
+9. **CAPELLA**
+   - Type: Quadruple star system
+   - Color: Yellow-white
+   - Notable: Four stars appearing as one
+   - Art concept: Four stars in unity, golden light
+
+10. **ARCTURUS**
+    - Type: Red giant
+    - Color: Orange-red
+    - Notable: Fast-moving, will leave galaxy
+    - Art concept: Orange giant escaping, high velocity
+
+11. **PROCYON**
+    - Type: Binary star
+    - Color: White-yellow
+    - Notable: Little Dog Star, nearby
+    - Art concept: Smaller bright companion to Sirius
+
+12. **ALDEBARAN**
+    - Type: Orange giant
+    - Color: Orange-red
+    - Notable: Eye of Taurus, follower of Pleiades
+    - Art concept: Bull's eye, orange glow, watching
+
+13. **SPICA**
+    - Type: Binary star
+    - Color: Blue-white
+    - Notable: Virgo's wheat, very hot
+    - Art concept: Ear of wheat, blue-white brilliance
+
+14. **POLLUX**
+    - Type: Orange giant
+    - Color: Orange
+    - Notable: Gemini twin, brighter than Castor
+    - Art concept: Twin star, orange glow
+
+15. **CASTOR**
+    - Type: Sextuple star system
+    - Color: White
+    - Notable: Six stars appearing as one, Gemini twin
+    - Art concept: Multiple star family, white light
+
+## DEEP SKY OBJECTS
+
+16. **ORION NEBULA (M42)**
+    - Type: Emission nebula
+    - Color: Pink, purple, blue
+    - Notable: Stellar nursery, visible to naked eye
+    - Art concept: Gas clouds birthing stars, cosmic womb
+
+17. **ANDROMEDA GALAXY (M31)**
+    - Type: Spiral galaxy
+    - Color: Blue-white core, spiral arms
+    - Notable: Nearest major galaxy, collision course with Milky Way
+    - Art concept: Massive spiral galaxy, trillion stars
+
+18. **PLEIADES (Seven Sisters / M45)**
+    - Type: Open star cluster
+    - Color: Blue stars in reflection nebula
+    - Notable: Seven bright stars, young cluster
+    - Art concept: Seven blue sisters dancing together
+
+19. **GREAT HERCULES CLUSTER (M13)**
+    - Type: Globular cluster
+    - Color: Golden-white
+    - Notable: Densely packed stars, 25,000 light-years away
+    - Art concept: Ball of ancient stars, dense sphere
+
+20. **RING NEBULA (M57)**
+    - Type: Planetary nebula
+    - Color: Blue-green ring
+    - Notable: Dying star's shell, perfect ring shape
+    - Art concept: Cosmic smoke ring, stellar remnant
+
+21. **CRAB NEBULA (M1)**
+    - Type: Supernova remnant
+    - Color: Red filaments, blue glow
+    - Notable: Exploded in 1054 AD
+    - Art concept: Stellar explosion aftermath, chaotic energy
+
+22. **WHIRLPOOL GALAXY (M51)**
+    - Type: Spiral galaxy
+    - Color: Pink star-forming regions, yellow-white arms
+    - Notable: Face-on spiral, interacting galaxy
+    - Art concept: Perfect spiral, cosmic whirlpool
+
+23. **LAGOON NEBULA (M8)**
+    - Type: Emission nebula
+    - Color: Pink, red hydrogen
+    - Notable: Star-forming region, dark lagoon feature
+    - Art concept: Pink cosmic lagoon, stellar nursery
+
+24. **OMEGA NEBULA (M17)**
+    - Type: Emission nebula
+    - Color: Pink, red
+    - Notable: Swan shape, stellar nursery
+    - Art concept: Swan-shaped nebula, birthing stars
+
+## PLANETS
+
+25. **MERCURY**
+    - Type: Rocky planet
+    - Color: Gray, cratered
+    - Notable: Closest to Sun, extreme temperatures
+    - Art concept: Cratered gray world, baked by sun
+
+26. **VENUS**
+    - Type: Rocky planet
+    - Color: Brilliant white-yellow
+    - Notable: Brightest planet, morning/evening star
+    - Art concept: Brilliant yellow-white sphere, cloud-covered
+
+27. **MARS**
+    - Type: Rocky planet
+    - Color: Red-orange
+    - Notable: Red planet, potential for life
+    - Art concept: Rusty red world, dusty atmosphere
+
+28. **JUPITER**
+    - Type: Gas giant
+    - Color: Orange, white bands, Great Red Spot
+    - Notable: Largest planet, massive storm
+    - Art concept: Banded giant with red storm eye
+
+29. **SATURN**
+    - Type: Gas giant
+    - Color: Pale yellow, spectacular rings
+    - Notable: Ring system, many moons
+    - Art concept: Ringed beauty, ice and rock rings
+
+30. **URANUS**
+    - Type: Ice giant
+    - Color: Cyan-blue
+    - Notable: Tilted rotation, methane atmosphere
+    - Art concept: Tilted cyan sphere, featureless
+
+31. **NEPTUNE**
+    - Type: Ice giant
+    - Color: Deep blue
+    - Notable: Windiest planet, dark spots
+    - Art concept: Deep blue world, swirling storms
+
+## SPECIAL OBJECTS
+
+32. **THE MOON**
+    - Type: Natural satellite
+    - Color: Gray-white
+    - Notable: Earth's companion, phases
+    - Art concept: Cratered companion, changing phases
+
+33. **THE SUN**
+    - Type: Yellow dwarf star
+    - Color: Yellow-white, brilliant
+    - Notable: Our star, source of life
+    - Art concept: Blazing yellow sphere, solar prominence
+
+34. **MILKY WAY**
+    - Type: Galaxy band
+    - Color: Milky white, stellar haze
+    - Notable: Our galaxy viewed from inside
+    - Art concept: Luminous band across sky, billions of stars
+
+35. **NORTH STAR / ZENITH MARKER**
+    - Type: Celestial reference point
+    - Color: Conceptual visualization
+    - Notable: True north, sky navigation
+    - Art concept: Compass point, navigation star
+
+## CONSTELLATIONS (For Future Expansion)
+
+36. **ORION (The Hunter)**
+    - Features: Belt of three stars, Betelgeuse, Rigel
+    - Art concept: Hunter figure, warrior in stars
+
+37. **URSA MAJOR (Big Dipper)**
+    - Features: Seven bright stars forming dipper
+    - Art concept: Great Bear, dipper outline
+
+38. **CASSIOPEIA (The Queen)**
+    - Features: W-shaped constellation
+    - Art concept: Seated queen, W formation
+
+39. **SCORPIUS (The Scorpion)**
+    - Features: Antares heart, curved tail
+    - Art concept: Scorpion shape, menacing curve
+
+40. **CYGNUS (The Swan)**
+    - Features: Northern Cross, Deneb
+    - Art concept: Flying swan, cross shape
+
+## METEOR SHOWERS & COMETS (Dynamic Events)
+
+41. **PERSEIDS METEOR SHOWER**
+    - Type: Meteor shower
+    - Notable: August peak, bright meteors
+    - Art concept: Streaking lights, shooting stars
+
+42. **LEONIDS METEOR SHOWER**
+    - Type: Meteor shower
+    - Notable: November peak, fast meteors
+    - Art concept: Radiating from Leo, light trails
+
+43. **GEMINIDS METEOR SHOWER**
+    - Type: Meteor shower
+    - Notable: December peak, colorful
+    - Art concept: Holiday lights in sky, colorful streaks
+
+44. **HALLEY'S COMET**
+    - Type: Periodic comet
+    - Notable: Returns every 75-76 years
+    - Art concept: Iconic tail, historical visitor
+
+## ASTEROIDS & MINOR BODIES
+
+45. **CERES**
+    - Type: Dwarf planet
+    - Color: Gray-brown
+    - Notable: Largest asteroid belt object
+    - Art concept: Rocky sphere, bright spots
+
+46. **VESTA**
+    - Type: Asteroid
+    - Color: Gray-white
+    - Notable: Second-largest asteroid
+    - Art concept: Battered rock, ancient surface
+
+47. **EROS**
+    - Type: Near-Earth asteroid
+    - Color: Reddish
+    - Notable: Peanut-shaped
+    - Art concept: Elongated rock, odd shape
+
+48. **INTERNATIONAL SPACE STATION (ISS)**
+    - Type: Artificial satellite
+    - Color: Silver, reflective
+    - Notable: Visible from Earth, orbital laboratory
+    - Art concept: Solar panels, human outpost in orbit
+
+## ZODIACAL CONSTELLATIONS (For Astrology/Culture Integration)
+
+49. **ARIES (The Ram)**
+50. **TAURUS (The Bull)** - includes Pleiades, Aldebaran
+51. **GEMINI (The Twins)** - includes Castor, Pollux
+52. **CANCER (The Crab)** - includes Beehive Cluster
+53. **LEO (The Lion)** - includes Regulus
+54. **VIRGO (The Virgin)** - includes Spica
+55. **LIBRA (The Scales)**
+56. **SCORPIUS (The Scorpion)** - includes Antares
+57. **SAGITTARIUS (The Archer)** - toward galactic center
+58. **CAPRICORNUS (The Goat)**
+59. **AQUARIUS (The Water Bearer)**
+60. **PISCES (The Fish)**
+
+---
+
+## DALL-E PROMPT TEMPLATES
+
+### For Stars:
+"A cosmic illustration of [STAR NAME], showing a [COLOR] [TYPE] star with [DISTINCTIVE FEATURES]. Sci-fi aesthetic with neon glows in purple, teal, and magenta. Dark space background. Guerrilla astronomy style. Clean, bold, mystical."
+
+### For Nebulae:
+"A cosmic illustration of [NEBULA NAME], showing [COLOR] gas clouds [STAR FORMATION/DISTINCTIVE FEATURES]. Psychedelic space art with vibrant colors. Sci-fi aesthetic. Dark background. Guerrilla astronomy style. Clean, mystical, inspiring."
+
+### For Planets:
+"A cosmic illustration of [PLANET NAME], showing a [SIZE] [COLOR] [TYPE] planet with [DISTINCTIVE FEATURES like rings, storms, bands]. Sci-fi aesthetic with neon accents. Dark space background. Bold, clean, mystical style."
+
+### For Galaxies/Clusters:
+"A cosmic illustration of [OBJECT NAME], showing [SPIRAL/ELLIPTICAL/CLUSTER] with [DISTINCTIVE FEATURES]. Millions of stars visible. Sci-fi aesthetic with vibrant colors. Dark background. Guerrilla astronomy style. Epic, mystical, inspiring."
+
+---
+
+## NOTES FOR ARTWORK GENERATION
+
+- Maintain consistent style across all objects
+- Use INSPIRE brand colors: electric purple (#a855f7), neon teal (#06b6d4), neon magenta (#ec4899)
+- Keep backgrounds dark cosmic black
+- Add subtle glows and halos
+- Make each object instantly recognizable
+- Include some mystical/spiritual energy
+- Sci-fi guerrilla aesthetic throughout
+- Bold, clean lines
+- Each image should work at 200x200px minimum
+- Consider adding small constellation patterns or reference markers
+- Emoji can supplement but shouldn't replace artwork
+- File naming: [object-name]-artwork.png (e.g., "sirius-artwork.png")
+
+---
+
+Total Objects Listed: 60+ celestial objects, constellations, and phenomena
+All visible or notable from Earth with proper equipment or naked eye viewing.

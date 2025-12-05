@@ -1,0 +1,62 @@
+# developer.txt – INSPIRE STARFIELD NAVIGATOR
+
+## High-level Goal
+
+Build a **night-sky star chart web app** called **INSPIRE Starfield Navigator** that:
+
+- Shows an animated view of the night sky above the user based on their location and time.
+- Lets users:
+  - Use geolocation or manually set their location.
+  - Scrub through time (past / future) to see sky changes.
+  - Tap/click on stars and objects to open a **collapsible/expandable info panel**.
+- Each object has:
+  - A custom image (or stylized illustration).
+  - Scientific facts.
+  - Cultural + INSPIRE-style lore.
+- Works well on **mobile and desktop**, and can be embedded into my Shopify site (Dawn theme) at https://www.inspireclothing.art.
+
+This is an **artistic + educational** tool, not a professional-grade observatory app. Accuracy should be “good enough” for everyday stargazing and learning.
+
+---
+
+## Brand / Vibe
+
+- Name: **INSPIRE Starfield Navigator**
+- Vibe: Guerrilla astronomer / hacker-druid / street stargazer.
+- Visual style:
+  - Dark cosmic background (deep navy/black).
+  - Neon accents (electric purple, teal, magenta).
+  - Clean but bold typography (Google Fonts, e.g. a display font for headings + a legible sans for body).
+- Tone of copy:
+  - Inspirational, slightly mischievous, grounded in science but open to myth.
+  - Example line: “You’re looking at photons that left before your great-grandparents were born.”
+
+---
+
+## Tech Stack & Deliverables
+
+**Tech:** Browser-only, no backend required.
+
+- HTML5, CSS3, JavaScript (no build step).
+- Use `<canvas>` or SVG for starfield rendering.
+- You MAY use lightweight libraries via CDN if they help:
+  - `three.js` or a 2D canvas-based approach for the sky.
+  - A simple utility library is fine (e.g. tiny slider, but avoid bloated frameworks).
+
+**Deliverables:**
+
+1. `index.html`
+2. `styles.css`
+3. `script.js`
+4. Optional: `objects.json` (if you keep star/celestial catalog in a separate file; otherwise embed as a JS constant).
+
+---
+
+## Embedding Requirements
+
+App should be self-contained and embeddable:
+
+- Root container:
+
+  ```html
+  <div id="inspire-starfield-app"></div>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>INSPIRE Starfield Navigator | Open Source Astronomy</title>
+    <meta name="description" content="Professional astronomy tool for exploring the night sky with real-time celestial tracking.">
+    
+    <!-- Google Fonts - Modern Tech/Science UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="inspire-starfield-app">
+        <!-- Header with Logo -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="logo.png" alt="INSPIRE Logo" class="inspire-logo">
+                </div>
+                <div class="header-text">
+                    <h1 class="app-title">STARFIELD NAVIGATOR</h1>
+                    <p class="app-tagline">Open Source Astronomy Tool</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="fullscreen-btn" class="icon-btn" title="Toggle Fullscreen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="control-section">
+                <div class="section-title">LOCATION</div>
+                <div class="control-group">
+                    <button id="geolocate-btn" class="btn btn-primary" title="Use my location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <span>USE MY LOCATION</span>
+                    </button>
+                    <button id="location-manual-btn" class="btn btn-secondary" title="Set location manually">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2v20M2 12h20"/>
+                        </svg>
+                        <span>SET MANUAL</span>
+                    </button>
+                </div>
+                <div class="location-display" id="location-display">
+                    <span class="display-label">COORDINATES:</span>
+                    <span id="location-text">Waiting for location data...</span>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="section-title">TIME</div>
+                <div class="time-controls">
+                    <div class="time-display" id="current-time-display">CURRENT TIME</div>
+                    <div class="slider-container">
+                        <button id="time-back-btn" class="time-nav-btn" title="Go back in time">◀</button>
+                        <input type="range" id="time-slider" min="-12" max="12" value="0" step="0.5">
+                        <button id="time-forward-btn" class="time-nav-btn" title="Go forward in time">▶</button>
+                    </div>
+                    <button id="reset-time-btn" class="btn btn-small">RESET TO NOW</button>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <div class="section-title">VIEW</div>
+                <div class="zoom-controls">
+                    <button id="zoom-out-btn" class="btn btn-icon" title="Zoom Out">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35M8 11h6"/>
+                        </svg>
+                    </button>
+                    <div class="zoom-display" id="zoom-level">100%</div>
+                    <button id="zoom-in-btn" class="btn btn-icon" title="Zoom In">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/>
+                        </svg>
+                    </button>
+                    <button id="reset-zoom-btn" class="btn btn-small">RESET</button>
+                </div>
+                <div class="orientation-toggle" id="orientation-section">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gyro-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Device Orientation Tracking</span>
+                </div>
+            </div>
+
+            <div class="sky-info" id="sky-info">
+                <div class="info-item">
+                    <span class="info-label">VIEWING:</span>
+                    <span id="viewing-direction">Horizon to Zenith</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">VISIBLE:</span>
+                    <span id="object-count">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">ZOOM:</span>
+                    <span id="zoom-indicator">1.5x</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manual Location Modal -->
+        <div id="location-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>SET LOCATION</h2>
+                <div class="input-group">
+                    <label for="latitude-input">LATITUDE:</label>
+                    <input type="number" id="latitude-input" step="0.0001" placeholder="e.g., 40.7128" min="-90" max="90">
+                </div>
+                <div class="input-group">
+                    <label for="longitude-input">LONGITUDE:</label>
+                    <input type="number" id="longitude-input" step="0.0001" placeholder="e.g., -74.0060" min="-180" max="180">
+                </div>
+                <div class="modal-actions">
+                    <button id="save-location-btn" class="btn btn-primary">CONFIRM</button>
+                    <button id="cancel-location-btn" class="btn btn-secondary">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Star Canvas with Horizon -->
+        <div class="canvas-container">
+            <canvas id="starfield-canvas"></canvas>
+            
+            <!-- Direction Markers -->
+            <div class="direction-markers">
+                <div class="direction-marker north" data-direction="N">
+                    <div class="marker-icon">▲</div>
+                    <div class="marker-label">NORTH</div>
+                    <div class="marker-degrees">0°</div>
+                </div>
+                <div class="direction-marker east" data-direction="E">
+                    <div class="marker-icon">▶</div>
+                    <div class="marker-label">EAST</div>
+                    <div class="marker-degrees">90°</div>
+                </div>
+                <div class="direction-marker south" data-direction="S">
+                    <div class="marker-icon">▼</div>
+                    <div class="marker-label">SOUTH</div>
+                    <div class="marker-degrees">180°</div>
+                </div>
+                <div class="direction-marker west" data-direction="W">
+                    <div class="marker-icon">◀</div>
+                    <div class="marker-label">WEST</div>
+                    <div class="marker-degrees">270°</div>
+                </div>
+            </div>
+
+            <!-- Horizon with Ground Terrain -->
+            <div class="horizon-layer">
+                <div class="horizon-line"></div>
+                <div class="ground-terrain">
+                    <div class="terrain-grass"></div>
+                    <div class="terrain-pattern"></div>
+                </div>
+                
+                <!-- Compass at Bottom Center -->
+                <div class="compass" id="compass">
+                    <div class="compass-ring">
+                        <div class="compass-needle" id="compass-needle">
+                            <div class="needle-north"></div>
+                        </div>
+                        <div class="compass-label compass-n">N</div>
+                        <div class="compass-label compass-e">E</div>
+                        <div class="compass-label compass-s">S</div>
+                        <div class="compass-label compass-w">W</div>
+                    </div>
+                    <div class="compass-heading" id="compass-heading">0°</div>
+                </div>
+            </div>
+
+            <div class="zenith-marker">ZENITH ▲</div>
+
+            <div id="loading-overlay" class="loading-overlay">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">INITIALIZING SKY MAP</p>
+                <p class="loading-subtext">Calculating celestial positions...</p>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div id="info-panel" class="info-panel collapsed">
+            <div class="panel-handle" id="panel-handle">
+                <div class="handle-indicator"></div>
+            </div>
+            <button id="close-panel-btn" class="close-btn" title="Close">×</button>
+            <div class="info-content">
+                <div id="object-image" class="object-image">
+                    <div class="image-placeholder">✨</div>
+                </div>
+                <h2 id="object-name" class="object-name">SELECT CELESTIAL OBJECT</h2>
+                <div class="object-metadata">
+                    <span class="metadata-item" id="object-type">TYPE: Unknown</span>
+                    <span class="metadata-item" id="object-magnitude">MAG: --</span>
+                    <span class="metadata-item" id="object-distance">DIST: --</span>
+                </div>
+                <div class="info-tabs">
+                    <button class="tab-btn active" data-tab="science">
+                        <span>SCIENCE</span>
+                    </button>
+                    <button class="tab-btn" data-tab="lore">
+                        <span>LORE</span>
+                    </button>
+                </div>
+                <div class="tab-content">
+                    <div id="science-tab" class="tab-panel active">
+                        <p id="science-text">Select any celestial object to view detailed information.</p>
+                    </div>
+                    <div id="lore-tab" class="tab-panel">
+                        <p id="lore-text">Discover the cultural significance and INSPIRE wisdom.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions Overlay -->
+        <div id="instructions-overlay" class="instructions-overlay">
+            <div class="instructions-content">
+                <div class="instructions-logo">
+                    <img src="logo.png" alt="INSPIRE Logo" class="inspire-logo-large">
+                </div>
+                <h2>WELCOME TO STARFIELD NAVIGATOR</h2>
+                <p class="welcome-text">A professional open-source astronomy tool for exploring the cosmos.</p>
+                <div class="instructions-grid">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">📍</div>
+                        <div class="instruction-text">
+                            <strong>SET YOUR LOCATION</strong>
+                            <p>View your actual sky in real-time</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">⏰</div>
+                        <div class="instruction-text">
+                            <strong>TIME TRAVEL</strong>
+                            <p>Scrub through past and future skies</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🔍</div>
+                        <div class="instruction-text">
+                            <strong>ZOOM & EXPLORE</strong>
+                            <p>Pinch to zoom, tap to learn</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item" id="gyro-instruction">
+                        <div class="instruction-icon">📱</div>
+                        <div class="instruction-text">
+                            <strong>DEVICE ORIENTATION</strong>
+                            <p>Move your device to explore the sky</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="cosmic-note">Photons reaching your eyes traveled for years across the cosmos.</p>
+                <button id="start-btn" class="btn btn-primary btn-large">BEGIN OBSERVATION</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
