@@ -1,7 +1,7 @@
 // ============================================
-// INSPIRE STARFIELD NAVIGATOR V3
+// INSPIRE STARFIELD NAVIGATOR V3.1
 // NASA-Style Open Source Astronomy Tool
-// With Gyroscope, Zoom, and Compass Support
+// FIXED: Smoothed gyroscope tracking
 // ============================================
 
 // ============================================
@@ -107,22 +107,31 @@ const state = {
     moonPosition: null,
     
     // Zoom state
-    zoom: 1.5, // Default zoomed in for better star visibility
+    zoom: 1.5,
     minZoom: 0.5,
     maxZoom: 3.0,
     
-    // Orientation/Gyroscope state
+    // Orientation/Gyroscope state with smoothing
     orientation: {
         enabled: false,
-        alpha: 0,  // Compass direction (0-360)
-        beta: 0,   // Front-to-back tilt
-        gamma: 0,  // Left-to-right tilt
-        absolute: false
+        alpha: 0,
+        beta: 0,
+        gamma: 0,
+        absolute: false,
+        // Smoothing parameters
+        smoothedAlpha: 0,
+        smoothedBeta: 0,
+        smoothedGamma: 0,
+        smoothingFactor: 0.15, // Lower = smoother but more lag (0.1-0.3 recommended)
+        lastUpdate: Date.now()
     },
     
     // Touch/pinch zoom state
     touchStart: null,
-    lastPinchDistance: null
+    lastPinchDistance: null,
+    
+    // Animation frame for smooth updates
+    animationFrameId: null
 };
 
 // ============================================
@@ -154,63 +163,48 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
-    // Instructions
     document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instructions-overlay').classList.add('hidden');
         localStorage.setItem('starfield-visited', 'true');
         hideLoading();
     });
     
-    // Location
     document.getElementById('geolocate-btn').addEventListener('click', getGeolocation);
     document.getElementById('location-manual-btn').addEventListener('click', openLocationModal);
     document.getElementById('save-location-btn').addEventListener('click', saveManualLocation);
     document.getElementById('cancel-location-btn').addEventListener('click', closeLocationModal);
     
-    // Time
     document.getElementById('time-slider').addEventListener('input', handleTimeSlider);
     document.getElementById('time-back-btn').addEventListener('click', () => adjustTime(-1));
     document.getElementById('time-forward-btn').addEventListener('click', () => adjustTime(1));
     document.getElementById('reset-time-btn').addEventListener('click', resetTime);
     
-    // Zoom
     document.getElementById('zoom-in-btn').addEventListener('click', zoomIn);
     document.getElementById('zoom-out-btn').addEventListener('click', zoomOut);
     document.getElementById('reset-zoom-btn').addEventListener('click', resetZoom);
     
-    // Orientation
     document.getElementById('gyro-toggle').addEventListener('change', toggleOrientation);
-    
-    // Fullscreen
     document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
     
-    // Info panel
     document.getElementById('close-panel-btn').addEventListener('click', closeInfoPanel);
     document.getElementById('panel-handle').addEventListener('click', toggleInfoPanel);
     
-    // Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', (e) => switchTab(e.target.closest('.tab-btn').dataset.tab));
     });
     
-    // Canvas interaction
     state.canvas.addEventListener('click', handleCanvasClick);
     state.canvas.addEventListener('touchend', handleCanvasClick);
-    
-    // Pinch zoom
     state.canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
     state.canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
     state.canvas.addEventListener('touchend', handleTouchEnd);
-    
-    // Mouse wheel zoom
     state.canvas.addEventListener('wheel', handleWheelZoom, { passive: false });
     
-    // Window resize
     window.addEventListener('resize', resizeCanvas);
 }
 
 // ============================================
-// ORIENTATION/GYROSCOPE SUPPORT
+// ORIENTATION/GYROSCOPE SUPPORT - WITH SMOOTHING
 // ============================================
 
 function checkOrientationSupport() {
@@ -220,9 +214,7 @@ function checkOrientationSupport() {
         return;
     }
     
-    // Check if permission is needed (iOS 13+)
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS requires permission
         document.getElementById('gyro-toggle').addEventListener('change', async (e) => {
             if (e.target.checked) {
                 try {
@@ -254,46 +246,110 @@ function toggleOrientation(e) {
 
 function enableOrientation() {
     state.orientation.enabled = true;
+    state.orientation.lastUpdate = Date.now();
+    
+    // Start animation loop for smooth updates
+    startOrientationLoop();
+    
     window.addEventListener('deviceorientationabsolute', handleOrientation, true);
     window.addEventListener('deviceorientation', handleOrientation, true);
 }
 
 function disableOrientation() {
     state.orientation.enabled = false;
+    
+    // Stop animation loop
+    if (state.animationFrameId) {
+        cancelAnimationFrame(state.animationFrameId);
+        state.animationFrameId = null;
+    }
+    
     window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
     window.removeEventListener('deviceorientation', handleOrientation, true);
+    
     state.orientation.alpha = 0;
+    state.orientation.smoothedAlpha = 0;
     updateCompass(0);
+    drawStarfield();
+}
+
+// Exponential smoothing for gyroscope values
+function smoothValue(current, target, factor) {
+    // Handle wraparound for compass heading (0-360 degrees)
+    if (Math.abs(target - current) > 180) {
+        if (target > current) {
+            current += 360;
+        } else {
+            target += 360;
+        }
+    }
+    
+    const smoothed = current + (target - current) * factor;
+    return smoothed % 360;
 }
 
 function handleOrientation(event) {
     if (!state.orientation.enabled) return;
     
-    // Use absolute orientation if available (includes magnetic north)
+    // Get raw values
+    const rawAlpha = event.alpha || 0;
+    const rawBeta = event.beta || 0;
+    const rawGamma = event.gamma || 0;
+    
+    // Store raw values for smoothing
+    state.orientation.alpha = rawAlpha;
+    state.orientation.beta = rawBeta;
+    state.orientation.gamma = rawGamma;
     state.orientation.absolute = event.absolute || false;
-    state.orientation.alpha = event.alpha || 0;
-    state.orientation.beta = event.beta || 0;
-    state.orientation.gamma = event.gamma || 0;
+}
+
+// Smooth orientation update loop (separate from event handler)
+function startOrientationLoop() {
+    function updateLoop() {
+        if (!state.orientation.enabled) return;
+        
+        const now = Date.now();
+        const deltaTime = now - state.orientation.lastUpdate;
+        state.orientation.lastUpdate = now;
+        
+        // Apply exponential smoothing
+        state.orientation.smoothedAlpha = smoothValue(
+            state.orientation.smoothedAlpha,
+            state.orientation.alpha,
+            state.orientation.smoothingFactor
+        );
+        
+        state.orientation.smoothedBeta = state.orientation.smoothedBeta + 
+            (state.orientation.beta - state.orientation.smoothedBeta) * state.orientation.smoothingFactor;
+        
+        state.orientation.smoothedGamma = state.orientation.smoothedGamma + 
+            (state.orientation.gamma - state.orientation.smoothedGamma) * state.orientation.smoothingFactor;
+        
+        // Update compass with smoothed values
+        updateCompass(state.orientation.smoothedAlpha);
+        
+        // Redraw starfield with smoothed orientation
+        drawStarfield();
+        
+        // Continue loop
+        state.animationFrameId = requestAnimationFrame(updateLoop);
+    }
     
-    // Update compass
-    updateCompass(state.orientation.alpha);
-    
-    // Redraw starfield with orientation offset
-    drawStarfield();
+    updateLoop();
 }
 
 function updateCompass(heading) {
     const needle = document.getElementById('compass-needle');
     const headingDisplay = document.getElementById('compass-heading');
     
-    // Rotate needle (subtract because we want north to point up when alpha is 0)
+    // Rotate needle smoothly
     needle.style.transform = `rotate(${-heading}deg)`;
     
     // Update heading display
     const roundedHeading = Math.round(heading);
     headingDisplay.textContent = `${roundedHeading}°`;
     
-    // Update direction in compass (N, NE, E, etc.)
+    // Update direction
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     const index = Math.round(heading / 45) % 8;
     const direction = directions[index];
@@ -327,7 +383,6 @@ function updateZoomDisplay() {
     document.getElementById('zoom-indicator').textContent = `${state.zoom.toFixed(1)}x`;
 }
 
-// Touch/Pinch Zoom
 function handleTouchStart(e) {
     if (e.touches.length === 2) {
         e.preventDefault();
@@ -371,7 +426,6 @@ function getTouchDistance(touches) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-// Mouse Wheel Zoom
 function handleWheelZoom(e) {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -620,17 +674,17 @@ function projectToHorizonCanvas(alt, az) {
     const centerX = state.canvas.width / 2;
     const horizonY = state.canvas.height - 160;
     const baseRadius = Math.min(state.canvas.width, horizonY) * 0.45;
-    const maxRadius = baseRadius * state.zoom; // Apply zoom
+    const maxRadius = baseRadius * state.zoom;
     
     if (alt < 0) return { x: 0, y: 0, visible: false };
     
     const altitudeRatio = alt / 90;
     const r = maxRadius * (1 - altitudeRatio);
     
-    // Apply orientation offset if enabled
+    // Apply smoothed orientation offset if enabled
     let adjustedAz = az;
     if (state.orientation.enabled) {
-        adjustedAz = (az - state.orientation.alpha + 360) % 360;
+        adjustedAz = (az - state.orientation.smoothedAlpha + 360) % 360;
     }
     
     const azRad = (adjustedAz - 90) * Math.PI / 180;
@@ -672,7 +726,7 @@ function drawStarfield() {
 }
 
 function drawBackgroundStars() {
-    const numStars = Math.floor(400 * state.zoom); // More stars when zoomed
+    const numStars = Math.floor(400 * state.zoom);
     
     for (let i = 0; i < numStars; i++) {
         const alt = Math.random() * 90;
@@ -823,7 +877,6 @@ function drawCelestialObject(obj, date) {
     state.ctx.arc(x, y, size, 0, Math.PI * 2);
     state.ctx.fill();
     
-    // Label bright stars when zoomed
     if (obj.magnitude < 1 && alt > 20 && state.zoom >= 1.2) {
         state.ctx.fillStyle = '#00D4FF';
         state.ctx.font = `${10 * Math.min(state.zoom, 1.5)}px "JetBrains Mono", monospace`;
