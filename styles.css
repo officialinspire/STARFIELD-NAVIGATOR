@@ -12,6 +12,7 @@
     --accent-cyan: #00D4FF;
     --accent-green: #00FF88;
     --accent-orange: #FF8C42;
+    --star-yellow: #FFD700;
     --text-primary: #E8EDF4;
     --text-secondary: #9BA5B7;
     --text-dim: #6B7280;
@@ -236,7 +237,7 @@ body {
 .menu-tagline {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--star-yellow);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 3rem;
@@ -493,7 +494,7 @@ body {
 .app-tagline {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    color: var(--accent-cyan);
+    color: var(--star-yellow);
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 500;

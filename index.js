@@ -360,6 +360,13 @@ function startApp() {
 
     showScreen('app');
 
+    // FIX: Resize canvas now that the app screen is visible
+    // This fixes the issue where canvas has 0x0 dimensions on desktop
+    setTimeout(() => {
+        resizeCanvas();
+        drawStarfield();
+    }, 50);
+
     // Initialize the starfield app if not already done
     const hasVisited = localStorage.getItem('starfield-visited');
     if (!hasVisited) {
@@ -500,6 +507,9 @@ function setupEventListeners() {
         document.getElementById('instructions-overlay').classList.add('hidden');
         localStorage.setItem('starfield-visited', 'true');
         hideLoading();
+        // FIX: Ensure canvas is properly sized and drawn when instructions are dismissed
+        resizeCanvas();
+        drawStarfield();
     });
 
     document.getElementById('geolocate-btn').addEventListener('click', () => { playSFX('click'); getGeolocation(); });
