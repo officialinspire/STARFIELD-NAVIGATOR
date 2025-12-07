@@ -55,7 +55,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('tap-screen-background.png') center/cover no-repeat;
+    background: url('tap-screen-back-ground-desktop.png') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,7 +194,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, var(--primary-bg) 0%, #000000 100%);
+    background: url('main-menu-background-desktop.png') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1541,7 +1541,11 @@ input:checked + .toggle-slider:before {
    ============================================ */
 
 @media (max-width: 768px) {
-    /* Tap to start screen */
+    /* Tap to start screen - Mobile Background */
+    .tap-to-start-screen {
+        background: url('tap-screen-back-ground-mobile.png') center/cover no-repeat;
+    }
+
     .tap-logo {
         width: 80px;
     }
@@ -1554,7 +1558,11 @@ input:checked + .toggle-slider:before {
         font-size: 1rem;
     }
 
-    /* Main menu */
+    /* Main menu - Mobile Background */
+    .main-menu-screen {
+        background: url('main-menu-background-mobile.png') center/cover no-repeat;
+    }
+
     .menu-logo {
         width: 100px;
     }
