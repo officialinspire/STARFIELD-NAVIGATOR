@@ -14,7 +14,107 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="inspire-starfield-app">
+    <!-- TAP TO START Screen -->
+    <div id="tap-to-start-screen" class="tap-to-start-screen">
+        <div class="tap-content">
+            <img src="logo.png" alt="INSPIRE Logo" class="tap-logo">
+            <h1 class="tap-title">STARFIELD NAVIGATOR</h1>
+            <p class="tap-instruction">TAP ANYWHERE TO START</p>
+            <div class="tap-pulse"></div>
+        </div>
+    </div>
+
+    <!-- Intro Video Screen -->
+    <div id="intro-video-screen" class="intro-video-screen hidden">
+        <video id="intro-video" class="intro-video" playsinline>
+            <source src="inspiresoftwareintro.mp4" type="video/mp4">
+        </video>
+        <button id="skip-intro-btn" class="skip-intro-btn">SKIP →</button>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu-screen" class="main-menu-screen hidden">
+        <div class="main-menu-content">
+            <div class="menu-logo-container">
+                <img src="logo.png" alt="INSPIRE Logo" class="menu-logo">
+            </div>
+            <h1 class="menu-title">STARFIELD NAVIGATOR</h1>
+            <p class="menu-tagline">Open Source Astronomy Tool</p>
+
+            <div class="menu-buttons">
+                <button id="start-app-btn" class="menu-btn menu-btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="10 8 16 12 10 16 10 8"/>
+                    </svg>
+                    START APP
+                </button>
+                <button id="app-settings-btn" class="menu-btn menu-btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
+                        <path d="m4.93 4.93 4.24 4.24m5.66 0 4.24-4.24m0 14.14-4.24-4.24m-5.66 0-4.24 4.24"/>
+                    </svg>
+                    APP SETTINGS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Settings Screen -->
+    <div id="app-settings-screen" class="app-settings-screen hidden">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2 class="settings-title">APP SETTINGS</h2>
+                <button id="close-settings-btn" class="close-settings-btn">×</button>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">AUDIO SETTINGS</h3>
+
+                <div class="setting-item">
+                    <label for="bg-music-slider" class="setting-label">
+                        <span>Background Music Volume</span>
+                        <span class="setting-value" id="bg-music-value">50%</span>
+                    </label>
+                    <input type="range" id="bg-music-slider" class="setting-slider" min="0" max="100" value="50">
+                </div>
+
+                <div class="setting-item">
+                    <label for="sfx-slider" class="setting-label">
+                        <span>SFX Volume</span>
+                        <span class="setting-value" id="sfx-value">30%</span>
+                    </label>
+                    <input type="range" id="sfx-slider" class="setting-slider" min="0" max="100" value="30">
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">GYROSCOPE SETTINGS</h3>
+
+                <div class="setting-item">
+                    <label for="settings-gyro-sensitivity" class="setting-label">
+                        <span>Gyroscope Sensitivity</span>
+                        <span class="setting-value" id="settings-sensitivity-value">Medium</span>
+                    </label>
+                    <input type="range" id="settings-gyro-sensitivity" class="setting-slider" min="5" max="30" value="15" step="1">
+                    <div class="sensitivity-marks">
+                        <span>Smooth</span>
+                        <span>Responsive</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">PERMISSIONS</h3>
+                <p class="settings-note">Location and device orientation permissions are requested when needed during app usage.</p>
+            </div>
+
+            <button id="save-settings-btn" class="menu-btn menu-btn-primary settings-save-btn">SAVE & RETURN</button>
+        </div>
+    </div>
+
+    <div id="inspire-starfield-app" class="hidden">
         <!-- Header with Logo -->
         <header class="app-header">
             <div class="header-left">

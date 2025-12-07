@@ -8,63 +8,88 @@
 // CELESTIAL DATA CATALOG
 // ============================================
 
+// Star type classifications with realistic colors and sizes
+const STAR_TYPES = {
+    'O': { color: '#9BB0FF', temp: 'Blue', size: 2.5 },        // Hot blue stars
+    'B': { color: '#AABFFF', temp: 'Blue-white', size: 2.2 }, // Blue-white
+    'A': { color: '#CAD7FF', temp: 'White', size: 2.0 },      // White
+    'F': { color: '#F8F7FF', temp: 'Yellow-white', size: 1.8 },// Yellow-white
+    'G': { color: '#FFF4EA', temp: 'Yellow', size: 1.6 },     // Yellow (like our Sun)
+    'K': { color: '#FFD2A1', temp: 'Orange', size: 1.5 },     // Orange
+    'M': { color: '#FFB380', temp: 'Red', size: 1.4 },        // Red dwarfs
+    'RED_GIANT': { color: '#FF6B4A', temp: 'Red Giant', size: 3.0 },
+    'RED_SUPERGIANT': { color: '#FF4422', temp: 'Red Supergiant', size: 3.5 },
+    'BLUE_SUPERGIANT': { color: '#8AB3FF', temp: 'Blue Supergiant', size: 3.2 },
+    'WHITE_DWARF': { color: '#FFFFFF', temp: 'White Dwarf', size: 1.0 }
+};
+
 const CELESTIAL_OBJECTS = [
     {
         id: 'polaris', name: 'Polaris', commonName: 'North Star', type: 'star',
+        starType: 'F', // Yellow-white supergiant
         ra: 2.53, dec: 89.26, magnitude: 2.0, distance: '433 light-years', emoji: '⭐',
         science: 'Polaris is a triple star system located roughly 433 light-years away. It\'s the brightest star in Ursa Minor and sits almost directly above Earth\'s North Pole, making it appear nearly stationary while other stars rotate around it.',
         lore: 'The North Star is your cosmic anchor—a fixed point in an ever-spinning sky. Ancient travelers used it as their GPS. INSPIRE truth: When you\'re lost, find your Polaris.'
     },
     {
         id: 'sirius', name: 'Sirius', commonName: 'Dog Star', type: 'star',
+        starType: 'A', // White main sequence
         ra: 6.75, dec: -16.72, magnitude: -1.46, distance: '8.6 light-years', emoji: '💎',
         science: 'Sirius is the brightest star in Earth\'s night sky, located 8.6 light-years away in Canis Major. It\'s actually a binary star system. The "Dog Days" of summer are named after Sirius rising with the sun.',
         lore: 'Sirius burns so bright it looks like a diamond dropped in velvet. INSPIRE wisdom: Shine so bright they can\'t ignore you. Your light is your revolution.'
     },
     {
         id: 'betelgeuse', name: 'Betelgeuse', commonName: 'Alpha Orionis', type: 'star',
+        starType: 'RED_SUPERGIANT',
         ra: 5.92, dec: 7.41, magnitude: 0.5, distance: '550 light-years', emoji: '🔴',
         science: 'Betelgeuse is a red supergiant in Orion, roughly 550 light-years away and nearing the end of its life. It could go supernova any time in the next 100,000 years.',
         lore: 'This dying star is 1,000 times bigger than our Sun. INSPIRE philosophy: Even stars die, but they go out in glory. Make it count.'
     },
     {
         id: 'vega', name: 'Vega', commonName: 'Alpha Lyrae', type: 'star',
+        starType: 'A', // White main sequence
         ra: 18.62, dec: 38.78, magnitude: 0.03, distance: '25 light-years', emoji: '🌟',
         science: 'Vega is one of the brightest stars visible from Earth, located 25 light-years away. It\'s been a pole star in the past and will be again in 12,000 years.',
         lore: 'Vega was the North Star when the pyramids were built. INSPIRE truth: Everything cycles. Your moment comes around again.'
     },
     {
         id: 'rigel', name: 'Rigel', commonName: 'Beta Orionis', type: 'star',
+        starType: 'BLUE_SUPERGIANT',
         ra: 5.24, dec: -8.20, magnitude: 0.18, distance: '860 light-years', emoji: '💠',
         science: 'Rigel is a blue supergiant in Orion\'s foot, approximately 860 light-years away. It\'s a quadruple star system with immense luminosity—40,000 times that of our Sun.',
         lore: 'Rigel is the rebel of Orion—burning blue-hot and fierce. INSPIRE energy: Be Rigel. Burn brighter than expected.'
     },
     {
         id: 'altair', name: 'Altair', commonName: 'Alpha Aquilae', type: 'star',
+        starType: 'A', // White main sequence
         ra: 19.85, dec: 8.87, magnitude: 0.76, distance: '17 light-years', emoji: '⚡',
         science: 'Altair is one of the closest stars visible to the naked eye at just 17 light-years away. It rotates incredibly fast—once every 9 hours.',
         lore: 'Altair spins so fast it\'s dizzy with power. INSPIRE romance: Even cosmic forces can\'t stop true connection.'
     },
     {
         id: 'deneb', name: 'Deneb', commonName: 'Alpha Cygni', type: 'star',
+        starType: 'BLUE_SUPERGIANT',
         ra: 20.69, dec: 45.28, magnitude: 1.25, distance: '2,600 light-years', emoji: '🦢',
         science: 'Deneb is one of the most luminous stars known, a blue-white supergiant 200,000 times brighter than our Sun.',
         lore: 'Deneb is the cosmic lighthouse. INSPIRE power: Your influence can reach farther than you think.'
     },
     {
         id: 'antares', name: 'Antares', commonName: 'Alpha Scorpii', type: 'star',
+        starType: 'RED_SUPERGIANT',
         ra: 16.49, dec: -26.43, magnitude: 1.06, distance: '550 light-years', emoji: '♏',
         science: 'Antares is a red supergiant in Scorpius. Its name means "rival of Mars" due to its reddish color.',
         lore: 'Antares rivals Mars itself—red, fierce, unstoppable. INSPIRE rebellion: Challenge the status quo.'
     },
     {
         id: 'capella', name: 'Capella', commonName: 'Alpha Aurigae', type: 'star',
+        starType: 'G', // Yellow giant
         ra: 5.28, dec: 45.99, magnitude: 0.08, distance: '43 light-years', emoji: '🐐',
         science: 'Capella is actually four stars—two giant pairs orbiting each other. It\'s the sixth-brightest star in the night sky.',
         lore: 'Capella is four stars masquerading as one. INSPIRE unity: You\'re stronger together.'
     },
     {
         id: 'arcturus', name: 'Arcturus', commonName: 'Alpha Boötis', type: 'star',
+        starType: 'RED_GIANT',
         ra: 14.26, dec: 19.18, magnitude: -0.05, distance: '37 light-years', emoji: '🍊',
         science: 'Arcturus is a red giant and the fourth-brightest star in the night sky. It\'s moving through space unusually fast.',
         lore: 'Arcturus is breaking free—moving so fast it\'ll escape the Milky Way. INSPIRE freedom: Move at your own speed.'
@@ -83,6 +108,7 @@ const CELESTIAL_OBJECTS = [
     },
     {
         id: 'pleiades', name: 'Pleiades', commonName: 'Seven Sisters', type: 'cluster',
+        starType: 'B', // Hot blue stars
         ra: 3.79, dec: 24.12, magnitude: 1.6, distance: '440 light-years', emoji: '✨',
         science: 'The Pleiades is an open star cluster with seven bright stars visible. These hot, blue stars are young—only 100 million years old.',
         lore: 'Seven sisters running together across the cosmos. INSPIRE tribe: Find your crew. The ones who shine with you.'
@@ -135,16 +161,301 @@ const state = {
 
     // Background stars cache - prevents jitter
     backgroundStars: [],
-    lastZoom: null
+    lastZoom: null,
+
+    // Audio system
+    audio: {
+        menuMusic: null,
+        appMusic: null,
+        clickSound: null,
+        sliderSound: null,
+        musicVolume: 0.5,
+        sfxVolume: 0.3
+    },
+
+    // App flow state
+    appState: 'tap-to-start', // 'tap-to-start', 'intro-video', 'main-menu', 'settings', 'app'
+
+    // Settings
+    settings: {
+        backgroundMusicVolume: 50,
+        sfxVolume: 30,
+        gyroSensitivity: 15
+    }
 };
+
+// ============================================
+// AUDIO SYSTEM
+// ============================================
+
+function initializeAudio() {
+    // Initialize audio objects
+    state.audio.menuMusic = new Audio('menu-music.mp3');
+    state.audio.menuMusic.loop = true;
+    state.audio.menuMusic.volume = state.settings.backgroundMusicVolume / 100;
+
+    state.audio.appMusic = new Audio('app-background-music.mp3');
+    state.audio.appMusic.loop = true;
+    state.audio.appMusic.volume = state.settings.backgroundMusicVolume / 100;
+
+    // Generate simple click and slider sounds using Web Audio API
+    generateSFX();
+}
+
+function generateSFX() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Create click sound
+    state.audio.clickSound = () => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(state.settings.sfxVolume / 100 * 0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+    };
+
+    // Create slider sound
+    state.audio.sliderSound = () => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 400;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(state.settings.sfxVolume / 100 * 0.15, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.05);
+    };
+}
+
+function playSFX(type) {
+    if (type === 'click' && state.audio.clickSound) {
+        state.audio.clickSound();
+    } else if (type === 'slider' && state.audio.sliderSound) {
+        state.audio.sliderSound();
+    }
+}
+
+function fadeInAudio(audioElement, duration = 2000) {
+    audioElement.volume = 0;
+    audioElement.play().catch(e => console.log('Audio play failed:', e));
+
+    const targetVolume = state.settings.backgroundMusicVolume / 100;
+    const steps = 50;
+    const stepDuration = duration / steps;
+    const volumeStep = targetVolume / steps;
+
+    let currentStep = 0;
+    const interval = setInterval(() => {
+        if (currentStep >= steps) {
+            audioElement.volume = targetVolume;
+            clearInterval(interval);
+        } else {
+            audioElement.volume = Math.min(targetVolume, audioElement.volume + volumeStep);
+            currentStep++;
+        }
+    }, stepDuration);
+}
+
+function fadeOutAudio(audioElement, duration = 2000) {
+    const startVolume = audioElement.volume;
+    const steps = 50;
+    const stepDuration = duration / steps;
+    const volumeStep = startVolume / steps;
+
+    let currentStep = 0;
+    const interval = setInterval(() => {
+        if (currentStep >= steps) {
+            audioElement.volume = 0;
+            audioElement.pause();
+            clearInterval(interval);
+        } else {
+            audioElement.volume = Math.max(0, audioElement.volume - volumeStep);
+            currentStep++;
+        }
+    }, stepDuration);
+}
+
+function crossfadeAudio(fadeOutElement, fadeInElement, duration = 2000) {
+    fadeOutAudio(fadeOutElement, duration);
+    fadeInAudio(fadeInElement, duration);
+}
+
+// ============================================
+// SCREEN TRANSITIONS
+// ============================================
+
+function showScreen(screenName) {
+    const screens = {
+        'tap-to-start': document.getElementById('tap-to-start-screen'),
+        'intro-video': document.getElementById('intro-video-screen'),
+        'main-menu': document.getElementById('main-menu-screen'),
+        'settings': document.getElementById('app-settings-screen'),
+        'app': document.getElementById('inspire-starfield-app')
+    };
+
+    // Hide all screens
+    Object.values(screens).forEach(screen => {
+        if (screen) screen.classList.add('hidden');
+    });
+
+    // Show requested screen
+    if (screens[screenName]) {
+        screens[screenName].classList.remove('hidden');
+        state.appState = screenName;
+    }
+}
+
+function handleTapToStart() {
+    playSFX('click');
+    showScreen('intro-video');
+    playIntroVideo();
+}
+
+function playIntroVideo() {
+    const video = document.getElementById('intro-video');
+    video.currentTime = 0;
+    video.play().catch(e => console.log('Video play failed:', e));
+
+    video.addEventListener('ended', showMainMenu);
+}
+
+function skipIntroVideo() {
+    playSFX('click');
+    const video = document.getElementById('intro-video');
+    video.pause();
+    video.removeEventListener('ended', showMainMenu);
+    showMainMenu();
+}
+
+function showMainMenu() {
+    showScreen('main-menu');
+    // Fade in menu music
+    if (state.audio.menuMusic) {
+        fadeInAudio(state.audio.menuMusic, 2000);
+    }
+}
+
+function startApp() {
+    playSFX('click');
+
+    // Crossfade from menu music to app music
+    if (state.audio.menuMusic && state.audio.appMusic) {
+        crossfadeAudio(state.audio.menuMusic, state.audio.appMusic, 2000);
+    }
+
+    showScreen('app');
+
+    // Initialize the starfield app if not already done
+    const hasVisited = localStorage.getItem('starfield-visited');
+    if (!hasVisited) {
+        document.getElementById('instructions-overlay').classList.remove('hidden');
+    } else {
+        document.getElementById('instructions-overlay').classList.add('hidden');
+        hideLoading();
+    }
+}
+
+function openSettings() {
+    playSFX('click');
+    showScreen('settings');
+}
+
+function closeSettings() {
+    playSFX('click');
+    showScreen('main-menu');
+}
+
+function saveSettings() {
+    playSFX('click');
+
+    // Apply settings
+    const bgMusicVolume = parseInt(document.getElementById('bg-music-slider').value);
+    const sfxVolume = parseInt(document.getElementById('sfx-slider').value);
+    const gyroSensitivity = parseInt(document.getElementById('settings-gyro-sensitivity').value);
+
+    state.settings.backgroundMusicVolume = bgMusicVolume;
+    state.settings.sfxVolume = sfxVolume;
+    state.settings.gyroSensitivity = gyroSensitivity;
+
+    // Update audio volumes
+    if (state.audio.menuMusic) state.audio.menuMusic.volume = bgMusicVolume / 100;
+    if (state.audio.appMusic) state.audio.appMusic.volume = bgMusicVolume / 100;
+
+    // Update gyro sensitivity in main app
+    state.orientation.smoothingFactor = gyroSensitivity / 100;
+    document.getElementById('gyro-sensitivity-slider').value = gyroSensitivity;
+    updateSensitivityDisplay();
+
+    closeSettings();
+}
 
 // ============================================
 // INITIALIZATION
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeApp();
+    initializeAudio();
+    setupNewEventListeners();
 });
+
+function setupNewEventListeners() {
+    // Tap to start
+    document.getElementById('tap-to-start-screen').addEventListener('click', handleTapToStart);
+
+    // Intro video
+    document.getElementById('skip-intro-btn').addEventListener('click', skipIntroVideo);
+
+    // Main menu
+    document.getElementById('start-app-btn').addEventListener('click', startApp);
+    document.getElementById('app-settings-btn').addEventListener('click', openSettings);
+
+    // Settings
+    document.getElementById('close-settings-btn').addEventListener('click', closeSettings);
+    document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
+
+    // Settings sliders
+    document.getElementById('bg-music-slider').addEventListener('input', (e) => {
+        playSFX('slider');
+        const value = e.target.value;
+        document.getElementById('bg-music-value').textContent = `${value}%`;
+    });
+
+    document.getElementById('sfx-slider').addEventListener('input', (e) => {
+        const value = e.target.value;
+        document.getElementById('sfx-value').textContent = `${value}%`;
+        state.settings.sfxVolume = parseInt(value);
+        playSFX('slider');
+    });
+
+    document.getElementById('settings-gyro-sensitivity').addEventListener('input', (e) => {
+        playSFX('slider');
+        const value = parseInt(e.target.value);
+        let label = 'Medium';
+        if (value <= 10) label = 'Very Smooth';
+        else if (value <= 17) label = 'Smooth';
+        else if (value <= 23) label = 'Balanced';
+        else label = 'Responsive';
+        document.getElementById('settings-sensitivity-value').textContent = label;
+    });
+
+    // Initialize main app after short delay
+    setTimeout(initializeApp, 100);
+}
 
 function initializeApp() {
     state.canvas = document.getElementById('starfield-canvas');
@@ -185,43 +496,44 @@ function updateSensitivityDisplay() {
 
 function setupEventListeners() {
     document.getElementById('start-btn').addEventListener('click', () => {
+        playSFX('click');
         document.getElementById('instructions-overlay').classList.add('hidden');
         localStorage.setItem('starfield-visited', 'true');
         hideLoading();
     });
-    
-    document.getElementById('geolocate-btn').addEventListener('click', getGeolocation);
-    document.getElementById('location-manual-btn').addEventListener('click', openLocationModal);
-    document.getElementById('save-location-btn').addEventListener('click', saveManualLocation);
-    document.getElementById('cancel-location-btn').addEventListener('click', closeLocationModal);
-    
-    document.getElementById('time-slider').addEventListener('input', handleTimeSlider);
-    document.getElementById('time-back-btn').addEventListener('click', () => adjustTime(-1));
-    document.getElementById('time-forward-btn').addEventListener('click', () => adjustTime(1));
-    document.getElementById('reset-time-btn').addEventListener('click', resetTime);
-    
-    document.getElementById('zoom-in-btn').addEventListener('click', zoomIn);
-    document.getElementById('zoom-out-btn').addEventListener('click', zoomOut);
-    document.getElementById('reset-zoom-btn').addEventListener('click', resetZoom);
-    
-    document.getElementById('gyro-toggle').addEventListener('change', toggleOrientation);
-    document.getElementById('gyro-sensitivity-slider').addEventListener('input', handleSensitivityChange);
-    document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
 
-    document.getElementById('close-panel-btn').addEventListener('click', closeInfoPanel);
-    document.getElementById('panel-handle').addEventListener('click', toggleInfoPanel);
-    
+    document.getElementById('geolocate-btn').addEventListener('click', () => { playSFX('click'); getGeolocation(); });
+    document.getElementById('location-manual-btn').addEventListener('click', () => { playSFX('click'); openLocationModal(); });
+    document.getElementById('save-location-btn').addEventListener('click', () => { playSFX('click'); saveManualLocation(); });
+    document.getElementById('cancel-location-btn').addEventListener('click', () => { playSFX('click'); closeLocationModal(); });
+
+    document.getElementById('time-slider').addEventListener('input', (e) => { playSFX('slider'); handleTimeSlider(e); });
+    document.getElementById('time-back-btn').addEventListener('click', () => { playSFX('click'); adjustTime(-1); });
+    document.getElementById('time-forward-btn').addEventListener('click', () => { playSFX('click'); adjustTime(1); });
+    document.getElementById('reset-time-btn').addEventListener('click', () => { playSFX('click'); resetTime(); });
+
+    document.getElementById('zoom-in-btn').addEventListener('click', () => { playSFX('click'); zoomIn(); });
+    document.getElementById('zoom-out-btn').addEventListener('click', () => { playSFX('click'); zoomOut(); });
+    document.getElementById('reset-zoom-btn').addEventListener('click', () => { playSFX('click'); resetZoom(); });
+
+    document.getElementById('gyro-toggle').addEventListener('change', (e) => { playSFX('click'); toggleOrientation(e); });
+    document.getElementById('gyro-sensitivity-slider').addEventListener('input', (e) => { playSFX('slider'); handleSensitivityChange(e); });
+    document.getElementById('fullscreen-btn').addEventListener('click', () => { playSFX('click'); toggleFullscreen(); });
+
+    document.getElementById('close-panel-btn').addEventListener('click', () => { playSFX('click'); closeInfoPanel(); });
+    document.getElementById('panel-handle').addEventListener('click', () => { playSFX('click'); toggleInfoPanel(); });
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => switchTab(e.target.closest('.tab-btn').dataset.tab));
+        btn.addEventListener('click', (e) => { playSFX('click'); switchTab(e.target.closest('.tab-btn').dataset.tab); });
     });
-    
+
     state.canvas.addEventListener('click', handleCanvasClick);
     state.canvas.addEventListener('touchend', handleCanvasClick);
     state.canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
     state.canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
     state.canvas.addEventListener('touchend', handleTouchEnd);
     state.canvas.addEventListener('wheel', handleWheelZoom, { passive: false });
-    
+
     window.addEventListener('resize', resizeCanvas);
 }
 
@@ -908,50 +1220,92 @@ function drawMoon(moonAltAz, date) {
 function drawCelestialObject(obj, date) {
     const { alt, az } = raDecToAltAz(obj.ra, obj.dec, state.userLat, state.userLon, date);
     const { x, y, visible } = projectToHorizonCanvas(alt, az);
-    
+
     if (!visible) return;
     if (x < 0 || x > state.canvas.width || y < 0 || y > state.canvas.height - 160) return;
-    
+
     state.visibleObjectCount++;
-    
+
     const hitRadius = 20 * Math.min(state.zoom, 2);
     state.clickableObjects.push({ obj, x, y, radius: hitRadius });
-    
-    const glowSize = 20 * Math.min(state.zoom, 1.8);
+
+    // Get star type properties for realistic rendering
+    let starColor = '#FFFFFF';
+    let starSizeMultiplier = 1.0;
+
+    if (obj.type === 'star' && obj.starType && STAR_TYPES[obj.starType]) {
+        const typeData = STAR_TYPES[obj.starType];
+        starColor = typeData.color;
+        starSizeMultiplier = typeData.size;
+    }
+
+    const glowSize = 20 * Math.min(state.zoom, 1.8) * (starSizeMultiplier * 0.8);
     const gradient = state.ctx.createRadialGradient(x, y, 0, x, y, glowSize);
-    
+
     if (obj.type === 'star') {
-        gradient.addColorStop(0, 'rgba(74, 158, 255, 0.9)');
-        gradient.addColorStop(0.5, 'rgba(0, 212, 255, 0.4)');
+        // Use star color for glow
+        const rgb = hexToRgb(starColor);
+        gradient.addColorStop(0, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.9)`);
+        gradient.addColorStop(0.5, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)`);
     } else if (obj.type === 'nebula') {
         gradient.addColorStop(0, 'rgba(236, 72, 153, 0.7)');
         gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.3)');
+    } else if (obj.type === 'cluster') {
+        const rgb = obj.starType ? hexToRgb(STAR_TYPES[obj.starType].color) : { r: 170, g: 191, b: 255 };
+        gradient.addColorStop(0, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.8)`);
+        gradient.addColorStop(0.5, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.3)`);
     } else {
         gradient.addColorStop(0, 'rgba(16, 185, 129, 0.7)');
         gradient.addColorStop(0.5, 'rgba(0, 212, 255, 0.3)');
     }
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    
+
     state.ctx.fillStyle = gradient;
     state.ctx.beginPath();
     state.ctx.arc(x, y, glowSize, 0, Math.PI * 2);
     state.ctx.fill();
-    
-    const size = Math.max(2.5, (6 - obj.magnitude)) * Math.min(state.zoom, 1.5);
-    state.ctx.fillStyle = '#ffffff';
+
+    // Render star with realistic size based on type
+    const baseSize = Math.max(2.5, (6 - obj.magnitude)) * Math.min(state.zoom, 1.5);
+    const size = baseSize * starSizeMultiplier;
+    state.ctx.fillStyle = starColor;
     state.ctx.beginPath();
     state.ctx.arc(x, y, size, 0, Math.PI * 2);
     state.ctx.fill();
-    
-    if (obj.magnitude < 1 && alt > 20 && state.zoom >= 1.2) {
-        state.ctx.fillStyle = '#00D4FF';
-        state.ctx.font = `${10 * Math.min(state.zoom, 1.5)}px "JetBrains Mono", monospace`;
+
+    // Add labels to ALL visible celestial objects (not just bright ones)
+    if (alt > 10 && state.zoom >= 1.0) {
+        // Determine label color based on object type
+        let labelColor = '#00D4FF';
+        if (obj.type === 'star' && obj.starType && STAR_TYPES[obj.starType]) {
+            labelColor = starColor;
+        } else if (obj.type === 'nebula') {
+            labelColor = '#EC4899';
+        } else if (obj.type === 'cluster') {
+            labelColor = '#A855F7';
+        } else if (obj.type === 'galaxy') {
+            labelColor = '#10B981';
+        }
+
+        const fontSize = Math.max(8, 10 * Math.min(state.zoom, 1.5));
+        state.ctx.fillStyle = labelColor;
+        state.ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
         state.ctx.textAlign = 'center';
-        state.ctx.shadowColor = 'rgba(0, 212, 255, 0.8)';
+        state.ctx.shadowColor = labelColor;
         state.ctx.shadowBlur = 6;
-        state.ctx.fillText(obj.name, x, y - 15 * Math.min(state.zoom, 1.5));
+        state.ctx.fillText(obj.name, x, y - (15 * Math.min(state.zoom, 1.5) + size));
         state.ctx.shadowBlur = 0;
     }
+}
+
+// Helper function to convert hex to RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : { r: 255, g: 255, b: 255 };
 }
 
 // ============================================
