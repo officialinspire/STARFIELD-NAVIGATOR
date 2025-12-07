@@ -99,6 +99,17 @@
                     </label>
                     <span class="toggle-label">Device Orientation Tracking</span>
                 </div>
+                <div class="gyro-sensitivity-control" id="gyro-sensitivity-section">
+                    <label for="gyro-sensitivity-slider" class="sensitivity-label">
+                        <span>Gyroscope Sensitivity</span>
+                        <span class="sensitivity-value" id="sensitivity-value">Medium</span>
+                    </label>
+                    <input type="range" id="gyro-sensitivity-slider" min="5" max="30" value="15" step="1" class="sensitivity-slider">
+                    <div class="sensitivity-marks">
+                        <span>Smooth</span>
+                        <span>Responsive</span>
+                    </div>
+                </div>
             </div>
 
             <div class="sky-info" id="sky-info">
