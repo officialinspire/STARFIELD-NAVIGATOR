@@ -105,12 +105,12 @@ const state = {
     visibleObjectCount: 0,
     sunPosition: null,
     moonPosition: null,
-    
+
     // Zoom state
     zoom: 1.5,
     minZoom: 0.5,
     maxZoom: 3.0,
-    
+
     // Orientation/Gyroscope state with smoothing
     orientation: {
         enabled: false,
@@ -122,16 +122,20 @@ const state = {
         smoothedAlpha: 0,
         smoothedBeta: 0,
         smoothedGamma: 0,
-        smoothingFactor: 0.15, // Lower = smoother but more lag (0.1-0.3 recommended)
+        smoothingFactor: 0.15, // Lower = smoother but more lag (0.05-0.3 recommended)
         lastUpdate: Date.now()
     },
-    
+
     // Touch/pinch zoom state
     touchStart: null,
     lastPinchDistance: null,
-    
+
     // Animation frame for smooth updates
-    animationFrameId: null
+    animationFrameId: null,
+
+    // Background stars cache - prevents jitter
+    backgroundStars: [],
+    lastZoom: null
 };
 
 // ============================================
@@ -160,6 +164,23 @@ function initializeApp() {
     
     tryGeolocation();
     updateZoomDisplay();
+    updateSensitivityDisplay();
+}
+
+function updateSensitivityDisplay() {
+    const slider = document.getElementById('gyro-sensitivity-slider');
+    const value = parseInt(slider.value);
+    const label = document.getElementById('sensitivity-value');
+
+    if (value <= 10) {
+        label.textContent = 'Very Smooth';
+    } else if (value <= 17) {
+        label.textContent = 'Smooth';
+    } else if (value <= 23) {
+        label.textContent = 'Balanced';
+    } else {
+        label.textContent = 'Responsive';
+    }
 }
 
 function setupEventListeners() {
@@ -184,8 +205,9 @@ function setupEventListeners() {
     document.getElementById('reset-zoom-btn').addEventListener('click', resetZoom);
     
     document.getElementById('gyro-toggle').addEventListener('change', toggleOrientation);
+    document.getElementById('gyro-sensitivity-slider').addEventListener('input', handleSensitivityChange);
     document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-    
+
     document.getElementById('close-panel-btn').addEventListener('click', closeInfoPanel);
     document.getElementById('panel-handle').addEventListener('click', toggleInfoPanel);
     
@@ -341,19 +363,40 @@ function startOrientationLoop() {
 function updateCompass(heading) {
     const needle = document.getElementById('compass-needle');
     const headingDisplay = document.getElementById('compass-heading');
-    
+
     // Rotate needle smoothly
     needle.style.transform = `rotate(${-heading}deg)`;
-    
+
     // Update heading display
     const roundedHeading = Math.round(heading);
     headingDisplay.textContent = `${roundedHeading}°`;
-    
+
     // Update direction
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     const index = Math.round(heading / 45) % 8;
     const direction = directions[index];
     document.getElementById('viewing-direction').textContent = `Facing ${direction}`;
+}
+
+function handleSensitivityChange(e) {
+    const value = parseInt(e.target.value);
+
+    // Convert slider value (5-30) to smoothing factor (0.3-0.05)
+    // Lower slider value = smoother (lower smoothing factor)
+    // Higher slider value = more responsive (higher smoothing factor)
+    state.orientation.smoothingFactor = value / 100;
+
+    // Update label
+    const label = document.getElementById('sensitivity-value');
+    if (value <= 10) {
+        label.textContent = 'Very Smooth';
+    } else if (value <= 17) {
+        label.textContent = 'Smooth';
+    } else if (value <= 23) {
+        label.textContent = 'Balanced';
+    } else {
+        label.textContent = 'Responsive';
+    }
 }
 
 // ============================================
@@ -725,20 +768,43 @@ function drawStarfield() {
     document.getElementById('object-count').textContent = state.visibleObjectCount;
 }
 
-function drawBackgroundStars() {
-    const numStars = Math.floor(400 * state.zoom);
-    
+// Seeded random number generator for consistent star positions
+function seededRandom(seed) {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+function generateBackgroundStars() {
+    const numStars = 400;
+    const stars = [];
+
     for (let i = 0; i < numStars; i++) {
-        const alt = Math.random() * 90;
-        const az = Math.random() * 360;
-        const { x, y, visible } = projectToHorizonCanvas(alt, az);
-        
+        stars.push({
+            alt: seededRandom(i * 3) * 90,
+            az: seededRandom(i * 3 + 1) * 360,
+            brightness: seededRandom(i * 3 + 2) * 0.7 + 0.2,
+            baseSize: seededRandom(i * 3 + 3) * 1.5 + 0.5
+        });
+    }
+
+    return stars;
+}
+
+function drawBackgroundStars() {
+    // Generate stars only once or when zoom level changes significantly
+    if (state.backgroundStars.length === 0 || state.lastZoom === null || Math.abs(state.zoom - state.lastZoom) > 0.5) {
+        state.backgroundStars = generateBackgroundStars();
+        state.lastZoom = state.zoom;
+    }
+
+    for (const star of state.backgroundStars) {
+        const { x, y, visible } = projectToHorizonCanvas(star.alt, star.az);
+
         if (!visible || x < 0 || x > state.canvas.width || y < 0 || y > state.canvas.height - 160) continue;
-        
-        const brightness = Math.random() * 0.7 + 0.2;
-        const size = (Math.random() * 1.5 + 0.5) * Math.min(state.zoom, 1.5);
-        
-        state.ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+
+        const size = star.baseSize * Math.min(state.zoom, 1.5);
+
+        state.ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`;
         state.ctx.beginPath();
         state.ctx.arc(x, y, size, 0, Math.PI * 2);
         state.ctx.fill();
